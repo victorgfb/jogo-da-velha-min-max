@@ -16,6 +16,7 @@ class JogoDaVelha:
         self.simbJogador1 = simbolos[aux]
         self.simbJogador2 = simbolos[not(aux)]
         self.estadoAtual = No(True, self.jogo)
+        self.minMax = MinMax()
         self.estadoAtual.imprimir()
     
     def acabou(self):
@@ -42,12 +43,19 @@ class JogoDaVelha:
             print("Posição invalida\n")
             x,y = self.menu()    
         self.estadoAtual.estado[x][y] = self.simbJogador1
-        minMax = MinMax()
         self.estadoAtual.imprimir()
-        self.estadoAtual = minMax.miniMaxDecision(copy.deepcopy(self.estadoAtual), self.simbJogador2)
+
+        aux = self.estadoAtual.ganhou()
+
+        if(aux):
+            return
+            
+        self.estadoAtual = self.minMax.miniMaxDecision(copy.deepcopy(self.estadoAtual), self.simbJogador2)
         self.estadoAtual.imprimir()
 
 jogo = JogoDaVelha()
+aux = jogo.acabou()
 
-while(not(jogo.acabou())):
+while(aux == False):
     jogo.proximaJogada()
+    aux = jogo.acabou()

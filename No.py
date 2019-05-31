@@ -48,7 +48,6 @@ class No:
     def funcaoSucessora(self, simbolo):
         estado = self.estado
         self.filhos = []
-
         for i,linha in enumerate(estado):
             for j,elemento in enumerate(linha):
                 if elemento == '*':
