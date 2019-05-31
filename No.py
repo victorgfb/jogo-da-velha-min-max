@@ -6,6 +6,7 @@ class No:
         self.tipo = tipo
         self.estado = estado
         self.filhos = []
+        self.indice = None
 
     def ehMax(self):
         return self.estado

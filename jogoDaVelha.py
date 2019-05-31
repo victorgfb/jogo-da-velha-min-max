@@ -18,9 +18,10 @@ class JogoDaVelha:
         self.estadoAtual = No(True, self.jogo)
         self.minMax = MinMax()
         self.estadoAtual.imprimir()
+
     
     def acabou(self):
-        return self.estadoAtual.ganhou()
+        return self.estadoAtual.ganhou() or self.estadoAtual.testeTermino()
 
     def menu(self):
         auxY =  int(input("Selecione a linha ao qual deseja jogar \n"))
@@ -45,9 +46,7 @@ class JogoDaVelha:
         self.estadoAtual.estado[x][y] = self.simbJogador1
         self.estadoAtual.imprimir()
 
-        aux = self.estadoAtual.ganhou()
-
-        if(aux):
+        if(self.estadoAtual.testeTermino()):
             return
             
         self.estadoAtual = self.minMax.miniMaxDecision(copy.deepcopy(self.estadoAtual), self.simbJogador2)
