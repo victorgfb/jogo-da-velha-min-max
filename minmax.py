@@ -3,53 +3,38 @@ from No import No
 
 class MinMax:
 
-    def __init__(self, simbolo = 'X'):
-        self.simbolo = simbolo
-        self.raiz = No(True, (['*', '*', '*'],['*', '*', '*'],['*', '*', '*']), None)
-
-        lista = self.raiz.funcaoSucessora(self.simbolo)
-        for no in lista:
-            no.imprimir()
-
     def maxValue(self, no, simbolo):
-        if(no.testeDeTermino):
-            return no.funcaoUtilidade()
+        if(no.testeTermino()):
+            return no.funcaoUtilidade(simbolo)
 
         v  = -9999999
-
-        for filho in  no.funcaoSucessora(simbolo):
-            if(filho.testeDeTermino):
-                if(count == None):
-                    count = 0
-                count +=  self.maxValue(filho,simbolo)
-            else:
-                v = max(v, self.minValue(filho,simbolo))
+        sucessores = no.funcaoSucessora(simbolo)
+        for filho in  sucessores:
+            v = max(v, self.minValue(filho,simbolo))
         
-        if(count != None):
-            v = count
+        no.setIndice(v)
         return v
 
     def minValue(self, no, simbolo):
-        if(no.testeDeTermino):
-            return no.funcaoUtilidade()
+        if(no.testeTermino()):
+            return no.funcaoUtilidade(simbolo)
 
         v  = 9999999
-        count = None
+        sucessores = no.funcaoSucessora(simbolo)
 
-        for filho in  no.funcaoSucessora(simbolo):
-            if(filho.testeDeTermino):
-                if(count == None):
-                    count = 0
-                count +=  self.maxValue(filho,simbolo)
-            else:
-                v = min(v, self.maxValue(filho,simbolo))
+        for filho in sucessores:
+            v = min(v, self.maxValue(filho,simbolo))
 
-        if(count != None):
-            v = count
+        no.setIndice(v)
         return v
 
     def miniMaxDecision(self, no, simbolo):
-        v = self.maxValue(no,simbolo)
+        v = self.maxValue(no, simbolo)
+        print(len(no.filhos))
 
-aux = MinMax()
-#print(aux.testeDeTermino([['X','O','X'],['O','X','O'],['O','X','O']]))
+        for filho in no.filhos:
+            print(filho.getIndice())
+
+        for filho in no.filhos:
+            if v == filho.getIndice():
+                return copy.deepcopy(filho)
