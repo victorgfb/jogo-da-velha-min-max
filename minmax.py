@@ -1,30 +1,33 @@
+import copy
+from No import No
+
 class MinMax:
 
     def __init__(self, simbolo = 'X'):
         self.simbolo = simbolo
+        self.raiz = No(True, (['*', '*', '*'],['*', '*', '*'],['*', '*', '*']), None)
 
-    def funcaoUtiliade(self, estado):
+        lista = self.raiz.funcaoSucessora(self.simbolo)
+        for no in lista:
+            no.imprimir()
 
-        print()
-        
-        for linha in estado:
-            for elemento in linha:
-                print(elemento, end=" ")
-            print()
+    def maxValue(self, no, simbolo):
+        if(no.testeDeTermino):
+            return no.funcaoUtilidade()
 
-        for i in range(3):
-            if(estado[i][0] == estado[i][1] and estado[i][1] == estado[i][2]):
-                return 1
-            if(estado[0][i] == estado[1][i] and estado [1][i] == estado[2][i]):
-                return 1
+        v  = -9999999
 
-        if(estado[0][0] == estado[1][1] and estado[1][1] == estado [2][2]):
-            return 1
+        for filho in  no.funcaoSucessora(simbolo):
+            v = max(v, self.minValue(filho,simbolo))
 
-        if(estado[0][2] == estado[1][1] and estado[1][1] == estado[2][0]):
-            return 1
-        
-        return 0
+    def minValue(self, no, simbolo):
+        if(no.testeDeTermino):
+            return no.funcaoUtilidade()
+
+        v  = 9999999
+
+        for filho in  no.funcaoSucessora(simbolo):
+            v = min(v, self.maxValue(filho,simbolo))
 
 aux = MinMax()
-print(aux.funcaoUtiliade([['X','O','X'],['O','X','O'],['O','X','O']]))
+#print(aux.testeDeTermino([['X','O','X'],['O','X','O'],['O','X','O']]))
